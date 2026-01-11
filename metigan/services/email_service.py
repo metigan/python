@@ -84,7 +84,7 @@ class EmailService:
         if tracking_id:
             body["trackingId"] = tracking_id
 
-        return self.http_client.post("/emails", body)
+        return self.http_client.post("/api/email/send", body)
 
     def send_email_with_template(
         self,
@@ -120,5 +120,5 @@ class EmailService:
         if reply_to:
             body["replyTo"] = reply_to
 
-        return self.http_client.post(f"/emails/templates/{template_id}", body)
+        return self.http_client.post("/api/email/send", body)
 

@@ -28,7 +28,7 @@ result = client.email.send_email(
 
 if result["success"]:
     print("Email sent successfully!")
-    print(f"Emails remaining: {result['emails_remaining']}")
+    print(f"Emails remaining: {result.get('emailsRemaining', 'N/A')}")
 ```
 
 ## 📧 Email Module

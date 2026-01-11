@@ -20,14 +20,14 @@ class FormsService:
             raise ValidationError("form data is required", "data")
 
         return self.http_client.post(
-            f"/forms/{form_id}/submit", {"formId": form_id, "data": data}
+            "/api/submissions", {"formId": form_id, "data": data}
         )
 
     def get(self, form_id_or_slug: str) -> Dict[str, Any]:
         """Get form by ID or slug"""
         if not form_id_or_slug:
             raise ValidationError("form_id_or_slug is required", "form_id_or_slug")
-        return self.http_client.get(f"/forms/{form_id_or_slug}")
+        return self.http_client.get(f"/api/forms/{form_id_or_slug}")
 
     def list(self, page: int = 1, limit: int = 10) -> Dict[str, Any]:
         """List all forms"""
@@ -39,7 +39,7 @@ class FormsService:
 
         if params:
             query_string = urlencode(params)
-            endpoint = f"/forms?{query_string}"
+            endpoint = f"/api/forms?{query_string}"
             return self.http_client.get(endpoint, None)
-        return self.http_client.get("/forms", None)
+        return self.http_client.get("/api/forms", None)
 

@@ -7,7 +7,6 @@ from .errors import ApiError
 
 
 BASE_URL = "https://api.metigan.com"
-API_VERSION = "/v1"
 
 
 class HttpClient:
@@ -20,19 +19,20 @@ class HttpClient:
         retry_count: int = 3,
         retry_delay: int = 2,
         debug: bool = False,
+        base_url: Optional[str] = None,
     ):
         self.api_key = api_key
         self.timeout = timeout
         self.retry_count = retry_count
         self.retry_delay = retry_delay
         self.debug = debug
-        self.base_url = BASE_URL + API_VERSION
+        self.base_url = base_url or BASE_URL
 
         self.session = requests.Session()
         self.session.headers.update(
             {
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {api_key}",
+                "x-api-key": api_key,
                 "User-Agent": "Metigan-Python-SDK/1.0",
             }
         )

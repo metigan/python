@@ -16,7 +16,7 @@ class TemplatesService:
         """Get template by ID"""
         if not template_id:
             raise ValidationError("template_id is required", "template_id")
-        return self.http_client.get(f"/templates/{template_id}")
+        return self.http_client.get(f"/api/templates/{template_id}")
 
     def list(self, page: int = 1, limit: int = 10) -> List[Dict[str, Any]]:
         """List all templates"""
@@ -28,9 +28,9 @@ class TemplatesService:
 
         if params:
             query_string = urlencode(params)
-            endpoint = f"/templates?{query_string}"
+            endpoint = f"/api/templates?{query_string}"
             result = self.http_client.get(endpoint, None)
         else:
-            result = self.http_client.get("/templates", None)
+            result = self.http_client.get("/api/templates", None)
         return result.get("templates", [])
 

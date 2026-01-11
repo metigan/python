@@ -23,13 +23,13 @@ class AudiencesService:
         if description:
             body["description"] = description
 
-        return self.http_client.post("/audiences", body)
+        return self.http_client.post("/api/audiences", body)
 
     def get(self, audience_id: str) -> Dict[str, Any]:
         """Get audience by ID"""
         if not audience_id:
             raise ValidationError("audience_id is required", "audience_id")
-        return self.http_client.get(f"/audiences/{audience_id}")
+        return self.http_client.get(f"/api/audiences/{audience_id}")
 
     def list(self, page: int = 1, limit: int = 10) -> Dict[str, Any]:
         """List audiences with optional pagination"""
@@ -41,19 +41,19 @@ class AudiencesService:
 
         if params:
             query_string = urlencode(params)
-            endpoint = f"/audiences?{query_string}"
+            endpoint = f"/api/audiences?{query_string}"
             return self.http_client.get(endpoint, None)
-        return self.http_client.get("/audiences", None)
+        return self.http_client.get("/api/audiences", None)
 
     def get_stats(self, audience_id: str) -> Dict[str, Any]:
         """Get statistics for an audience"""
         if not audience_id:
             raise ValidationError("audience_id is required", "audience_id")
-        return self.http_client.get(f"/audiences/{audience_id}/stats")
+        return self.http_client.get(f"/api/audiences/{audience_id}/stats")
 
     def delete(self, audience_id: str) -> None:
         """Delete an audience"""
         if not audience_id:
             raise ValidationError("audience_id is required", "audience_id")
-        self.http_client.delete(f"/audiences/{audience_id}")
+        self.http_client.delete(f"/api/audiences/{audience_id}")
 

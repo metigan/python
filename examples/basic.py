@@ -1,6 +1,5 @@
 """Basic example of using Metigan Python SDK"""
 
-import os
 from metigan import MetiganClient
 
 def main():
@@ -20,16 +19,17 @@ def main():
             content="<h1>Hello!</h1><p>This email was sent from a Python application.</p>"
         )
 
+        # IMPORTANT: API returns fields in camelCase (emailsRemaining), not snake_case (emails_remaining)
         if result.get("success"):
             print("Email sent successfully!")
             print(f"Message: {result.get('message')}")
-            print(f"Recipients: {result.get('recipient_count')}")
-            print(f"Emails remaining: {result.get('emails_remaining')}")
+            print(f"Recipients: {result.get('recipientCount', 0)}")
+            print(f"Emails remaining: {result.get('emailsRemaining', 'N/A')}")
         else:
-            print(f"Failed to send email: {result.get('message')}")
+            print(f"Failed to send email: {result.get('message', 'Unknown error')}")
     except Exception as e:
         print(f"Error: {e}")
 
 if __name__ == "__main__":
+    import os
     main()
-

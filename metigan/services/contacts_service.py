@@ -61,13 +61,13 @@ class ContactsService:
         if custom_fields:
             body["customFields"] = custom_fields
 
-        return self.http_client.post("/contacts", body)
+        return self.http_client.post("/api/contacts", body)
 
     def get(self, contact_id: str) -> Dict[str, Any]:
         """Get contact by ID"""
         if not contact_id:
             raise ValidationError("contact_id is required", "contact_id")
-        return self.http_client.get(f"/contacts/{contact_id}")
+        return self.http_client.get(f"/api/contacts/{contact_id}")
 
     def get_by_email(self, email: str, audience_id: str) -> Dict[str, Any]:
         """Get contact by email address"""
@@ -76,7 +76,7 @@ class ContactsService:
         if not audience_id:
             raise ValidationError("audience_id is required", "audience_id")
         # Query string already in URL, don't pass params
-        return self.http_client.get(f"/contacts/email/{email}?audienceId={audience_id}", None)
+        return self.http_client.get(f"/api/contacts/email/{email}?audienceId={audience_id}", None)
 
     def update(
         self,
@@ -106,7 +106,7 @@ class ContactsService:
         if status is not None:
             body["status"] = status
 
-        return self.http_client.patch(f"/contacts/{contact_id}", body)
+        return self.http_client.patch(f"/api/contacts/{contact_id}", body)
 
     def list(
         self,
@@ -134,28 +134,28 @@ class ContactsService:
 
         if params:
             query_string = urlencode(params)
-            endpoint = f"/contacts?{query_string}"
+            endpoint = f"/api/contacts?{query_string}"
             # Params already in URL, don't pass again
             return self.http_client.get(endpoint, None)
-        return self.http_client.get("/contacts", None)
+        return self.http_client.get("/api/contacts", None)
 
     def delete(self, contact_id: str) -> None:
         """Delete a contact"""
         if not contact_id:
             raise ValidationError("contact_id is required", "contact_id")
-        self.http_client.delete(f"/contacts/{contact_id}")
+        self.http_client.delete(f"/api/contacts/{contact_id}")
 
     def subscribe(self, contact_id: str) -> None:
         """Subscribe a contact"""
         if not contact_id:
             raise ValidationError("contact_id is required", "contact_id")
-        self.http_client.post(f"/contacts/{contact_id}/subscribe", {})
+        self.http_client.post(f"/api/contacts/{contact_id}/subscribe", {})
 
     def unsubscribe(self, contact_id: str) -> None:
         """Unsubscribe a contact"""
         if not contact_id:
             raise ValidationError("contact_id is required", "contact_id")
-        self.http_client.post(f"/contacts/{contact_id}/unsubscribe", {})
+        self.http_client.post(f"/api/contacts/{contact_id}/unsubscribe", {})
 
     def add_tags(self, contact_id: str, tags: List[str]) -> None:
         """Add tags to a contact"""
@@ -163,7 +163,7 @@ class ContactsService:
             raise ValidationError("contact_id is required", "contact_id")
         if not tags or len(tags) == 0:
             raise ValidationError("at least one tag is required", "tags")
-        self.http_client.post(f"/contacts/{contact_id}/tags", {"tags": tags})
+        self.http_client.post(f"/api/contacts/{contact_id}/tags", {"tags": tags})
 
     def remove_tags(self, contact_id: str, tags: List[str]) -> None:
         """Remove tags from a contact"""
@@ -171,5 +171,5 @@ class ContactsService:
             raise ValidationError("contact_id is required", "contact_id")
         if not tags or len(tags) == 0:
             raise ValidationError("at least one tag is required", "tags")
-        self.http_client.delete(f"/contacts/{contact_id}/tags", {"tags": tags})
+        self.http_client.delete(f"/api/contacts/{contact_id}/tags", {"tags": tags})
 
